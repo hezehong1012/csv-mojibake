@@ -10,11 +10,10 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-WERRPRW455');
 </script>
-<title>CSV文字化け修正ツール｜無料・登録不要でCSVの文字化けを直す</title>
-<meta name="description" content="CSVファイルの文字化けを無料で修正。UTF-8・Shift-JIS・EUC-JPに自動変換。登録不要・ブラウザだけで動作。">
+<title>CSV文字化け修正ツール｜文字コード変換も無料</title>
+<meta name="description" content="CSVファイルの文字化け修正、文字コード変換が無料。UTF-8・Shift-JIS・EUC-JPに自動変換。登録不要・ブラウザだけで動作。">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:#f4f4f8;color:#333;line-height:1.6}
@@ -26,13 +25,21 @@ header .container{display:flex;align-items:center;justify-content:space-between;
 nav a{margin-left:15px;text-decoration:none;color:#247a8c;font-size:14px}
 h1{font-size:28px;margin-bottom:10px;color:#1a1a1a;text-align:center}
 .subtitle{color:#666;margin-bottom:30px;font-size:15px;text-align:center}
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #e0e0e0}
+.tab{padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-size:14px;color:#666;transition:all .2s}
+.tab.active{color:#2c89a0;border-bottom-color:#2c89a0;font-weight:bold}
+.tab:hover{color:#2c89a0}
 .tool-box{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.tab-content{display:none}
+.tab-content.active{display:block}
 .upload-area{border:2px dashed #ddd;border-radius:8px;padding:40px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:20px}
 .upload-area:hover{border-color:#2c89a0}
 .upload-icon{font-size:48px;margin-bottom:10px}
 .upload-text{color:#666;font-size:14px}
 .upload-hint{color:#999;font-size:12px;margin-top:5px}
 #fileInput{display:none}
+.text-input{width:100%;min-height:150px;border:1px solid #ddd;border-radius:8px;padding:15px;font-size:14px;font-family:monospace;resize:vertical;margin-bottom:15px}
+.text-input:focus{outline:none;border-color:#2c89a0}
 .options{display:flex;gap:15px;margin:15px 0;flex-wrap:wrap;align-items:center}
 .options label{font-size:14px;color:#555}
 .options select{padding:6px 10px;border:1px solid #ddd;border-radius:5px;font-size:14px}
@@ -69,20 +76,43 @@ footer a{color:#247a8c;text-decoration:none;margin:0 10px}
 <header><div class="container"><a href="/" class="logo">CSV<span>文字化け</span></a><nav><a href="/">ホーム</a><a href="/privacy">プライバシー</a><a href="/terms">利用規約</a></nav></div></header>
 <div class="container">
 <h1>CSV文字化け修正ツール</h1>
-<p class="subtitle">無料・登録不要・ブラウザだけでCSVの文字化けを直す <span class="badge">データ保存なし</span></p>
+<p class="subtitle">無料・登録不要・ブラウザだけで文字コード変換 <span class="badge">データ保存なし</span></p>
 <div class="tool-box">
+<div class="tabs">
+<div class="tab active" data-tab="csv">📄 CSVファイル変換</div>
+<div class="tab" data-tab="text">✏️ テキスト変換</div>
+</div>
+<div class="tab-content active" id="csv-tab">
 <div class="upload-area" id="uploadArea"><div class="upload-icon">📄</div><div class="upload-text">CSVファイルをドラッグ＆ドロップ</div><div class="upload-hint">またはクリックしてファイルを選択</div><input type="file" id="fileInput" accept=".csv,.txt"></div>
 <div class="options"><label>変換後のエンコード：<select id="targetEncoding"><option value="UTF-8">UTF-8</option><option value="Shift_JIS">Shift-JIS</option><option value="EUC-JP">EUC-JP</option></select></label></div>
 <button id="convertBtn" disabled>変換する</button>
 <div class="result-box" id="resultBox"><h3>変換結果</h3><p id="fileInfo" style="font-size:13px;color:#666;margin:10px 0"></p><div class="preview" id="preview">プレビュー</div><div class="actions"><button id="downloadBtn">ダウンロード</button><button id="resetBtn" style="background:#666">もう一度</button></div></div>
 </div>
-<div class="features"><div class="feature"><h3>🔒 プライバシー保護</h3><p>ファイルはブラウザ内で処理され、サーバーにアップロードされません。</p></div><div class="feature"><h3>⚡ 高速変換</h3><p>数MBのCSVファイルも数秒で変換完了。待ち時間なし。</p></div><div class="feature"><h3>🆓 完全無料</h3><p>登録不要・課金なし。すべての機能を無料で使えます。</p></div></div>
-<div class="steps"><h2>使い方</h2><div class="step"><div class="step-num">1</div><div class="step-text"><h4>CSVファイルをアップロード</h4><p>ドラッグ＆ドロップ、またはクリックしてファイルを選択します。</p></div></div><div class="step"><div class="step-num">2</div><div class="step-text"><h4>変換後のエンコードを選択</h4><p>UTF-8、Shift-JIS、EUC-JPから選択します。デフォルトはUTF-8です。</p></div></div><div class="step"><div class="step-num">3</div><div class="step-text"><h4>変換してダウンロード</h4><p>プレビューを確認して、問題なければダウンロードします。</p></div></div></div>
-<div class="faq"><h2>よくある質問</h2><div class="faq-item"><div class="faq-q">Q. なぜCSVファイルが文字化けするのですか？</div><div class="faq-a">A. CSVファイルのエンコーディングと開くアプリの対応エンコーディングが一致しない場合に文字化けが発生します。</div></div><div class="faq-item"><div class="faq-q">Q. どのエンコードを選べばいいですか？</div><div class="faq-a">A. 最新のExcelやGoogleスプレッドシートを使う場合はUTF-8を、古いExcelを使う場合はShift-JISがおすすめです。</div></div><div class="faq-item"><div class="faq-q">Q. ファイルはどこに保存されますか？</div><div class="faq-a">A. 当サイトはブラウザだけで動作し、ファイルをサーバーにアップロードしません。</div></div></div>
+<div class="tab-content" id="text-tab">
+<textarea class="text-input" id="textInput" placeholder="ここに変換したいテキストを入力してください..."></textarea>
+<div class="options"><label>変換後のエンコード：<select id="textTargetEncoding"><option value="UTF-8">UTF-8</option><option value="Shift_JIS">Shift-JIS</option><option value="EUC-JP">EUC-JP</option></select></label></div>
+<button id="textConvertBtn">変換する</button>
+<div class="result-box" id="textResultBox"><h3>変換結果</h3><p id="textInfo" style="font-size:13px;color:#666;margin:10px 0"></p><div class="preview" id="textPreview">プレビュー</div><div class="actions"><button id="copyBtn">コピー</button><button id="textResetBtn" style="background:#666">リセット</button></div></div>
+</div>
+</div>
+<div class="features"><div class="feature"><h3>🔒 プライバシー保護</h3><p>データはブラウザ内で処理され、サーバーにアップロードされません。</p></div><div class="feature"><h3>⚡ 高速変換</h3><p>数MBのファイルも数秒で変換完了。待ち時間なし。</p></div><div class="feature"><h3>🆓 完全無料</h3><p>登録不要・課金なし。すべての機能を無料で使えます。</p></div></div>
+<div class="steps"><h2>使い方</h2><div class="step"><div class="step-num">1</div><div class="step-text"><h4>変換したいものを選択</h4><p>CSVファイルをアップロードするか、テキストを直接入力します。</p></div></div><div class="step"><div class="step-num">2</div><div class="step-text"><h4>変換後のエンコードを選択</h4><p>UTF-8、Shift-JIS、EUC-JPから選択します。デフォルトはUTF-8です。</p></div></div><div class="step"><div class="step-num">3</div><div class="step-text"><h4>変換して確認</h4><p>プレビューを確認して、問題なければダウンロードまたはコピーします。</p></div></div></div>
+<div class="faq"><h2>よくある質問</h2><div class="faq-item"><div class="faq-q">Q. なぜCSVファイルが文字化けするのですか？</div><div class="faq-a">A. CSVファイルのエンコーディングと開くアプリの対応エンコーディングが一致しない場合に文字化けが発生します。</div></div><div class="faq-item"><div class="faq-q">Q. どのエンコードを選べばいいですか？</div><div class="faq-a">A. 最新のExcelやGoogleスプレッドシートを使う場合はUTF-8を、古いExcelを使う場合はShift-JISがおすすめです。</div></div><div class="faq-item"><div class="faq-q">Q. ファイルやテキストはどこに保存されますか？</div><div class="faq-a">A. 当サイトはブラウザだけで動作し、データをサーバーにアップロードしません。</div></div></div>
 </div>
 <footer><p>&copy; 2026 CSV文字化け修正ツール. All rights reserved.</p><p><a href="/privacy">プライバシーポリシー</a><a href="/terms">利用規約</a></p></footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"></script>
 <script>
+// Tab切换
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab+'-tab').classList.add('active');
+  });
+});
+
+// CSV文件変換
 const uploadArea=document.getElementById('uploadArea'),fileInput=document.getElementById('fileInput'),convertBtn=document.getElementById('convertBtn'),resultBox=document.getElementById('resultBox'),preview=document.getElementById('preview'),downloadBtn=document.getElementById('downloadBtn'),resetBtn=document.getElementById('resetBtn'),fileInfo=document.getElementById('fileInfo'),targetEncoding=document.getElementById('targetEncoding');
 let selectedFile=null,convertedBlob=null;
 uploadArea.addEventListener('click',()=>fileInput.click());
@@ -94,6 +124,39 @@ function handleFile(file){selectedFile=file;fileInfo.textContent=`ファイル: 
 convertBtn.addEventListener('click',async()=>{if(!selectedFile)return;try{const arrayBuffer=await selectedFile.arrayBuffer();const bytes=new Uint8Array(arrayBuffer);const detectedEncoding=Encoding.detect(bytes);const unicodeString=Encoding.convert(bytes,{to:'UNICODE',from:detectedEncoding,type:'string'});const targetBytes=Encoding.convert(unicodeString,{to:targetEncoding.value,from:'UNICODE',type:'arraybuffer'});convertedBlob=new Blob([targetBytes],{type:'text/csv'});preview.textContent=unicodeString.substring(0,2000);resultBox.classList.add('show');fileInfo.textContent+=` | 検出エンコード: ${detectedEncoding}`;}catch(error){alert('変換に失敗しました: '+error.message);}});
 downloadBtn.addEventListener('click',()=>{if(!convertedBlob)return;const url=URL.createObjectURL(convertedBlob);const a=document.createElement('a');a.href=url;a.download=selectedFile.name.replace(/\.csv$/,'_converted.csv');a.click();URL.revokeObjectURL(url);});
 resetBtn.addEventListener('click',()=>{selectedFile=null;convertedBlob=null;fileInput.value='';convertBtn.disabled=true;resultBox.classList.remove('show');fileInfo.textContent='';});
+
+// テキスト変換
+const textInput=document.getElementById('textInput'),textConvertBtn=document.getElementById('textConvertBtn'),textResultBox=document.getElementById('textResultBox'),textPreview=document.getElementById('textPreview'),textInfo=document.getElementById('textInfo'),textTargetEncoding=document.getElementById('textTargetEncoding'),copyBtn=document.getElementById('copyBtn'),textResetBtn=document.getElementById('textResetBtn');
+let textConverted='';
+textConvertBtn.addEventListener('click',()=>{
+  const text=textInput.value.trim();
+  if(!text){alert('テキストを入力してください');return;}
+  try{
+    const bytes=new TextEncoder().encode(text);
+    const detectedEncoding=Encoding.detect(bytes)||'UTF-8';
+    const unicodeString=Encoding.convert(bytes,{to:'UNICODE',from:detectedEncoding,type:'string'});
+    const targetBytes=Encoding.convert(unicodeString,{to:textTargetEncoding.value,from:'UNICODE',type:'string'});
+    textConverted=targetBytes;
+    textPreview.textContent=unicodeString.substring(0,2000);
+    textResultBox.classList.add('show');
+    textInfo.textContent=`検出エンコード: ${detectedEncoding} → 変換後: ${textTargetEncoding.value}`;
+  }catch(error){
+    alert('変換に失敗しました: '+error.message);
+  }
+});
+copyBtn.addEventListener('click',()=>{
+  if(!textConverted)return;
+  navigator.clipboard.writeText(textConverted).then(()=>{
+    alert('クリップボードにコピーしました');
+  });
+});
+textResetBtn.addEventListener('click',()=>{
+  textInput.value='';
+  textConverted='';
+  textResultBox.classList.remove('show');
+  textInfo.textContent='';
+});
+
 document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{q.parentElement.classList.toggle('open');});});
 </script>
 </body>
