@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSV文字化け修正ツール｜無料・登録不要でCSVの文字化けを直す</title>
+<meta name="description" content="CSVファイルの文字化けを無料で修正。UTF-8・Shift-JIS・EUC-JPに自動変換。登録不要・ブラウザだけで動作。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:#f4f4f8;color:#333;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:20px}
+header{background:#fff;border-bottom:1px solid #e0e0e0;padding:15px 0;margin-bottom:30px}
+header .container{display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.logo{font-size:22px;font-weight:bold;background:#000;color:#fff;padding:4px 12px;border-radius:6px;text-decoration:none}
+.logo span{color:#4ecdc4}
+nav a{margin-left:15px;text-decoration:none;color:#247a8c;font-size:14px}
+h1{font-size:28px;margin-bottom:10px;color:#1a1a1a;text-align:center}
+.subtitle{color:#666;margin-bottom:30px;font-size:15px;text-align:center}
+.tool-box{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.upload-area{border:2px dashed #ddd;border-radius:8px;padding:40px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:20px}
+.upload-area:hover{border-color:#2c89a0}
+.upload-icon{font-size:48px;margin-bottom:10px}
+.upload-text{color:#666;font-size:14px}
+.upload-hint{color:#999;font-size:12px;margin-top:5px}
+#fileInput{display:none}
+.options{display:flex;gap:15px;margin:15px 0;flex-wrap:wrap;align-items:center}
+.options label{font-size:14px;color:#555}
+.options select{padding:6px 10px;border:1px solid #ddd;border-radius:5px;font-size:14px}
+button{background:#2c89a0;color:#fff;border:none;padding:12px 30px;border-radius:6px;font-size:16px;cursor:pointer;font-weight:bold;transition:background .2s}
+button:hover{background:#247a8c}
+button:disabled{background:#ccc;cursor:not-allowed}
+.result-box{background:#f9f9f9;border-radius:8px;padding:20px;margin-top:20px;display:none}
+.result-box.show{display:block}
+.preview{background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:15px;max-height:300px;overflow-y:auto;font-family:monospace;font-size:12px;line-height:1.5;margin:10px 0;white-space:pre-wrap;word-break:break-all}
+.actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:30px 0}
+.feature{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.feature h3{font-size:16px;margin-bottom:8px;color:#1a1a1a}
+.feature p{font-size:13px;color:#666}
+.steps{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.steps h2{font-size:20px;margin-bottom:15px;color:#1a1a1a}
+.step{display:flex;gap:15px;margin-bottom:15px;align-items:flex-start}
+.step-num{width:30px;height:30px;background:#2c89a0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+.step-text{flex:1}
+.step-text h4{font-size:15px;margin-bottom:5px}
+.step-text p{font-size:13px;color:#666}
+.faq{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.faq h2{font-size:20px;margin-bottom:15px;color:#1a1a1a}
+.faq-item{border-bottom:1px solid #eee;padding:15px 0}
+.faq-q{font-weight:bold;font-size:15px;margin-bottom:8px;cursor:pointer}
+.faq-a{font-size:14px;color:#666;display:none}
+.faq-item.open .faq-a{display:block}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:20px 0;text-align:center;color:#999;font-size:13px;margin-top:50px}
+footer a{color:#247a8c;text-decoration:none;margin:0 10px}
+.badge{display:inline-block;background:#e8f5e9;color:#2e7d32;padding:3px 10px;border-radius:12px;font-size:12px;margin-left:10px}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">CSV<span>文字化け</span></a><nav><a href="/">ホーム</a><a href="/privacy">プライバシー</a><a href="/terms">利用規約</a></nav></div></header>
+<div class="container">
+<h1>CSV文字化け修正ツール</h1>
+<p class="subtitle">無料・登録不要・ブラウザだけでCSVの文字化けを直す <span class="badge">データ保存なし</span></p>
+<div class="tool-box">
+<div class="upload-area" id="uploadArea"><div class="upload-icon">📄</div><div class="upload-text">CSVファイルをドラッグ＆ドロップ</div><div class="upload-hint">またはクリックしてファイルを選択</div><input type="file" id="fileInput" accept=".csv,.txt"></div>
+<div class="options"><label>変換後のエンコード：<select id="targetEncoding"><option value="UTF-8">UTF-8</option><option value="Shift_JIS">Shift-JIS</option><option value="EUC-JP">EUC-JP</option></select></label></div>
+<button id="convertBtn" disabled>変換する</button>
+<div class="result-box" id="resultBox"><h3>変換結果</h3><p id="fileInfo" style="font-size:13px;color:#666;margin:10px 0"></p><div class="preview" id="preview">プレビュー</div><div class="actions"><button id="downloadBtn">ダウンロード</button><button id="resetBtn" style="background:#666">もう一度</button></div></div>
+</div>
+<div class="features"><div class="feature"><h3>🔒 プライバシー保護</h3><p>ファイルはブラウザ内で処理され、サーバーにアップロードされません。</p></div><div class="feature"><h3>⚡ 高速変換</h3><p>数MBのCSVファイルも数秒で変換完了。待ち時間なし。</p></div><div class="feature"><h3>🆓 完全無料</h3><p>登録不要・課金なし。すべての機能を無料で使えます。</p></div></div>
+<div class="steps"><h2>使い方</h2><div class="step"><div class="step-num">1</div><div class="step-text"><h4>CSVファイルをアップロード</h4><p>ドラッグ＆ドロップ、またはクリックしてファイルを選択します。</p></div></div><div class="step"><div class="step-num">2</div><div class="step-text"><h4>変換後のエンコードを選択</h4><p>UTF-8、Shift-JIS、EUC-JPから選択します。デフォルトはUTF-8です。</p></div></div><div class="step"><div class="step-num">3</div><div class="step-text"><h4>変換してダウンロード</h4><p>プレビューを確認して、問題なければダウンロードします。</p></div></div></div>
+<div class="faq"><h2>よくある質問</h2><div class="faq-item"><div class="faq-q">Q. なぜCSVファイルが文字化けするのですか？</div><div class="faq-a">A. CSVファイルのエンコーディングと開くアプリの対応エンコーディングが一致しない場合に文字化けが発生します。</div></div><div class="faq-item"><div class="faq-q">Q. どのエンコードを選べばいいですか？</div><div class="faq-a">A. 最新のExcelやGoogleスプレッドシートを使う場合はUTF-8を、古いExcelを使う場合はShift-JISがおすすめです。</div></div><div class="faq-item"><div class="faq-q">Q. ファイルはどこに保存されますか？</div><div class="faq-a">A. 当サイトはブラウザだけで動作し、ファイルをサーバーにアップロードしません。</div></div></div>
+</div>
+<footer><p>&copy; 2026 CSV文字化け修正ツール. All rights reserved.</p><p><a href="/privacy">プライバシーポリシー</a><a href="/terms">利用規約</a></p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"></script>
+<script>
+const uploadArea=document.getElementById('uploadArea'),fileInput=document.getElementById('fileInput'),convertBtn=document.getElementById('convertBtn'),resultBox=document.getElementById('resultBox'),preview=document.getElementById('preview'),downloadBtn=document.getElementById('downloadBtn'),resetBtn=document.getElementById('resetBtn'),fileInfo=document.getElementById('fileInfo'),targetEncoding=document.getElementById('targetEncoding');
+let selectedFile=null,convertedBlob=null;
+uploadArea.addEventListener('click',()=>fileInput.click());
+uploadArea.addEventListener('dragover',(e)=>{e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',()=>{uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',(e)=>{e.preventDefault();uploadArea.classList.remove('dragover');const file=e.dataTransfer.files[0];if(file)handleFile(file);});
+fileInput.addEventListener('change',(e)=>{const file=e.target.files[0];if(file)handleFile(file);});
+function handleFile(file){selectedFile=file;fileInfo.textContent=`ファイル: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;convertBtn.disabled=false;}
+convertBtn.addEventListener('click',async()=>{if(!selectedFile)return;try{const arrayBuffer=await selectedFile.arrayBuffer();const bytes=new Uint8Array(arrayBuffer);const detectedEncoding=Encoding.detect(bytes);const unicodeString=Encoding.convert(bytes,{to:'UNICODE',from:detectedEncoding,type:'string'});const targetBytes=Encoding.convert(unicodeString,{to:targetEncoding.value,from:'UNICODE',type:'arraybuffer'});convertedBlob=new Blob([targetBytes],{type:'text/csv'});preview.textContent=unicodeString.substring(0,2000);resultBox.classList.add('show');fileInfo.textContent+=` | 検出エンコード: ${detectedEncoding}`;}catch(error){alert('変換に失敗しました: '+error.message);}});
+downloadBtn.addEventListener('click',()=>{if(!convertedBlob)return;const url=URL.createObjectURL(convertedBlob);const a=document.createElement('a');a.href=url;a.download=selectedFile.name.replace(/\.csv$/,'_converted.csv');a.click();URL.revokeObjectURL(url);});
+resetBtn.addEventListener('click',()=>{selectedFile=null;convertedBlob=null;fileInput.value='';convertBtn.disabled=true;resultBox.classList.remove('show');fileInfo.textContent='';});
+document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{q.parentElement.classList.toggle('open');});});
+</script>
+</body>
+</html>
