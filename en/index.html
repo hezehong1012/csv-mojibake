@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="Z1vua0Vo7S6XuQMPogmaM0mN5b5TAKBMX3Vg7AgblTs" />
+<link rel="canonical" href="https://csv-moji.format-portal.com/en/">
+<link rel="alternate" hreflang="ja" href="https://csv-moji.format-portal.com/">
+<link rel="alternate" hreflang="en" href="https://csv-moji.format-portal.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://csv-moji.format-portal.com/">
+<meta property="og:locale" content="en_US">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WERRPRW455"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-WERRPRW455');
+</script>
+<title>Fix CSV Mojibake — Free, No Signup, Browser-Based</title>
+<meta name="description" content="Fix garbled CSV text and convert character encoding for free. Auto-convert between UTF-8, Shift-JIS and EUC-JP. No signup, runs entirely in your browser.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;background:#f4f4f8;color:#333;line-height:1.6}
+.container{max-width:900px;margin:0 auto;padding:20px}
+header{background:#fff;border-bottom:1px solid #e0e0e0;padding:15px 0;margin-bottom:30px}
+header .container{display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.logo{font-size:22px;font-weight:bold;background:#000;color:#fff;padding:4px 12px;border-radius:6px;text-decoration:none}
+.logo span{color:#4ecdc4}
+nav a{margin-left:15px;text-decoration:none;color:#247a8c;font-size:14px}
+h1{font-size:28px;margin-bottom:10px;color:#1a1a1a;text-align:center}
+.subtitle{color:#666;margin-bottom:30px;font-size:15px;text-align:center}
+.tabs{display:flex;gap:0;margin-bottom:20px;border-bottom:2px solid #e0e0e0}
+.tab{padding:10px 20px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;font-size:14px;color:#666;transition:all .2s}
+.tab.active{color:#2c89a0;border-bottom-color:#2c89a0;font-weight:bold}
+.tab:hover{color:#2c89a0}
+.tool-box{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.upload-area{border:2px dashed #ddd;border-radius:8px;padding:40px;text-align:center;cursor:pointer;transition:border-color .2s;margin-bottom:20px}
+.upload-area:hover{border-color:#2c89a0}
+.upload-icon{font-size:48px;margin-bottom:10px}
+.upload-text{color:#666;font-size:14px}
+.upload-hint{color:#999;font-size:12px;margin-top:5px}
+#fileInput{display:none}
+.text-input{width:100%;min-height:150px;border:1px solid #ddd;border-radius:8px;padding:15px;font-size:14px;font-family:monospace;resize:vertical;margin-bottom:15px}
+.text-input:focus{outline:none;border-color:#2c89a0}
+.options{display:flex;gap:15px;margin:15px 0;flex-wrap:wrap;align-items:center}
+.options label{font-size:14px;color:#555}
+.options select{padding:6px 10px;border:1px solid #ddd;border-radius:5px;font-size:14px}
+button{background:#2c89a0;color:#fff;border:none;padding:12px 30px;border-radius:6px;font-size:16px;cursor:pointer;font-weight:bold;transition:background .2s}
+button:hover{background:#247a8c}
+button:disabled{background:#ccc;cursor:not-allowed}
+.result-box{background:#f9f9f9;border-radius:8px;padding:20px;margin-top:20px;display:none}
+.result-box.show{display:block}
+.preview{background:#fff;border:1px solid #e0e0e0;border-radius:4px;padding:15px;max-height:300px;overflow-y:auto;font-family:monospace;font-size:12px;line-height:1.5;margin:10px 0;white-space:pre-wrap;word-break:break-all}
+.actions{display:flex;gap:10px;margin-top:15px;flex-wrap:wrap}
+.features{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:15px;margin:30px 0}
+.feature{background:#fff;border-radius:8px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,0.05)}
+.feature h3{font-size:16px;margin-bottom:8px;color:#1a1a1a}
+.feature p{font-size:13px;color:#666}
+.steps{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.steps h2{font-size:20px;margin-bottom:15px;color:#1a1a1a}
+.step{display:flex;gap:15px;margin-bottom:15px;align-items:flex-start}
+.step-num{width:30px;height:30px;background:#2c89a0;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:bold;flex-shrink:0}
+.step-text{flex:1}
+.step-text h4{font-size:15px;margin-bottom:5px}
+.step-text p{font-size:13px;color:#666}
+.faq{background:#fff;border-radius:12px;padding:25px;box-shadow:0 2px 8px rgba(0,0,0,0.06);margin-bottom:30px}
+.faq h2{font-size:20px;margin-bottom:15px;color:#1a1a1a}
+.faq-item{border-bottom:1px solid #eee;padding:15px 0}
+.faq-q{font-weight:bold;font-size:15px;margin-bottom:8px;cursor:pointer}
+.faq-a{font-size:14px;color:#666;display:none}
+.faq-item.open .faq-a{display:block}
+footer{background:#fff;border-top:1px solid #e0e0e0;padding:20px 0;text-align:center;color:#999;font-size:13px;margin-top:50px}
+footer a{color:#247a8c;text-decoration:none;margin:0 10px}
+.badge{display:inline-block;background:#e8f5e9;color:#2e7d32;padding:3px 10px;border-radius:12px;font-size:12px;margin-left:10px}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/en/" class="logo">CSV<span>Fix</span></a><nav><a href="/en/">Home</a><a href="/en/privacy.html">Privacy</a><a href="/en/terms.html">Terms</a><a href="/?setlang=ja">日本語</a></nav></div></header>
+<div class="container">
+<h1>CSV Mojibake Fixer</h1>
+<p class="subtitle">Free, no signup, character encoding conversion right in your browser <span class="badge">No data stored</span></p>
+<div class="tool-box">
+<div class="tabs">
+<div class="tab active" data-tab="csv">📄 CSV file</div>
+<div class="tab" data-tab="text">✏️ Text</div>
+</div>
+<div class="tab-content active" id="csv-tab">
+<div class="upload-area" id="uploadArea"><div class="upload-icon">📄</div><div class="upload-text">Drag &amp; drop a CSV file</div><div class="upload-hint">or click to choose a file</div><input type="file" id="fileInput" accept=".csv,.txt"></div>
+<div class="options"><label>Output encoding: <select id="targetEncoding"><option value="UTF-8">UTF-8</option><option value="Shift_JIS">Shift-JIS</option><option value="EUC-JP">EUC-JP</option></select></label></div>
+<button id="convertBtn" disabled>Convert</button>
+<div class="result-box" id="resultBox"><h3>Result</h3><p id="fileInfo" style="font-size:13px;color:#666;margin:10px 0"></p><div class="preview" id="preview">Preview</div><div class="actions"><button id="downloadBtn">Download</button><button id="resetBtn" style="background:#666">Start over</button></div></div>
+</div>
+<div class="tab-content" id="text-tab">
+<textarea class="text-input" id="textInput" placeholder="Paste the text you want to convert here..."></textarea>
+<div class="options"><label>Output encoding: <select id="textTargetEncoding"><option value="UTF-8">UTF-8</option><option value="Shift_JIS">Shift-JIS</option><option value="EUC-JP">EUC-JP</option></select></label></div>
+<button id="textConvertBtn">Convert</button>
+<div class="result-box" id="textResultBox"><h3>Result</h3><p id="textInfo" style="font-size:13px;color:#666;margin:10px 0"></p><div class="preview" id="textPreview">Preview</div><div class="actions"><button id="copyBtn">Copy</button><button id="textResetBtn" style="background:#666">Reset</button></div></div>
+</div>
+</div>
+<div class="features"><div class="feature"><h3>🔒 Privacy first</h3><p>Everything is processed inside your browser and never uploaded to a server.</p></div><div class="feature"><h3>⚡ Fast conversion</h3><p>Even multi-megabyte files finish in seconds. No waiting around.</p></div><div class="feature"><h3>🆓 Completely free</h3><p>No signup, no fees. Every feature is free to use.</p></div></div>
+<div class="steps"><h2>How to use</h2><div class="step"><div class="step-num">1</div><div class="step-text"><h4>Choose what to convert</h4><p>Upload a CSV file, or paste the text directly.</p></div></div><div class="step"><div class="step-num">2</div><div class="step-text"><h4>Pick the output encoding</h4><p>Choose UTF-8, Shift-JIS or EUC-JP. UTF-8 is the default.</p></div></div><div class="step"><div class="step-num">3</div><div class="step-text"><h4>Convert and check</h4><p>Review the preview, then download or copy the result.</p></div></div></div>
+<div class="faq"><h2>FAQ</h2><div class="faq-item"><div class="faq-q">Q. Why does my CSV file turn into garbled text?</div><div class="faq-a">A. Mojibake happens when the file's encoding does not match the encoding the app uses to read it.</div></div><div class="faq-item"><div class="faq-q">Q. Which encoding should I choose?</div><div class="faq-a">A. Use UTF-8 with current Excel versions and Google Sheets. For older Excel setups, Shift-JIS is usually the safer choice.</div></div><div class="faq-item"><div class="faq-q">Q. Where are my files and text stored?</div><div class="faq-a">A. This site runs entirely in your browser and never uploads your data to a server.</div></div></div>
+</div>
+<footer><p>&copy; 2026 CSV Mojibake Fixer. All rights reserved.</p><p><a href="/en/privacy.html">Privacy Policy</a><a href="/en/terms.html">Terms of Service</a></p></footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/encoding-japanese/2.0.0/encoding.min.js"></script>
+<script>
+// Tab switching
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab+'-tab').classList.add('active');
+  });
+});
+
+// CSV file conversion
+const uploadArea=document.getElementById('uploadArea'),fileInput=document.getElementById('fileInput'),convertBtn=document.getElementById('convertBtn'),resultBox=document.getElementById('resultBox'),preview=document.getElementById('preview'),downloadBtn=document.getElementById('downloadBtn'),resetBtn=document.getElementById('resetBtn'),fileInfo=document.getElementById('fileInfo'),targetEncoding=document.getElementById('targetEncoding');
+let selectedFile=null,convertedBlob=null;
+uploadArea.addEventListener('click',()=>fileInput.click());
+uploadArea.addEventListener('dragover',(e)=>{e.preventDefault();uploadArea.classList.add('dragover');});
+uploadArea.addEventListener('dragleave',()=>{uploadArea.classList.remove('dragover');});
+uploadArea.addEventListener('drop',(e)=>{e.preventDefault();uploadArea.classList.remove('dragover');const file=e.dataTransfer.files[0];if(file)handleFile(file);});
+fileInput.addEventListener('change',(e)=>{const file=e.target.files[0];if(file)handleFile(file);});
+function handleFile(file){selectedFile=file;fileInfo.textContent=`File: ${file.name} (${(file.size/1024).toFixed(1)} KB)`;convertBtn.disabled=false;}
+convertBtn.addEventListener('click',async()=>{if(!selectedFile)return;try{const arrayBuffer=await selectedFile.arrayBuffer();const bytes=new Uint8Array(arrayBuffer);const detectedEncoding=Encoding.detect(bytes);const unicodeString=Encoding.convert(bytes,{to:'UNICODE',from:detectedEncoding,type:'string'});const targetBytes=Encoding.convert(unicodeString,{to:targetEncoding.value,from:'UNICODE',type:'arraybuffer'});convertedBlob=new Blob([targetBytes],{type:'text/csv'});preview.textContent=unicodeString.substring(0,2000);resultBox.classList.add('show');fileInfo.textContent+=` | Detected encoding: ${detectedEncoding}`;}catch(error){alert('Conversion failed: '+error.message);}});
+downloadBtn.addEventListener('click',()=>{if(!convertedBlob)return;const url=URL.createObjectURL(convertedBlob);const a=document.createElement('a');a.href=url;a.download=selectedFile.name.replace(/\.csv$/,'_converted.csv');a.click();URL.revokeObjectURL(url);});
+resetBtn.addEventListener('click',()=>{selectedFile=null;convertedBlob=null;fileInput.value='';convertBtn.disabled=true;resultBox.classList.remove('show');fileInfo.textContent='';});
+
+// Text conversion
+const textInput=document.getElementById('textInput'),textConvertBtn=document.getElementById('textConvertBtn'),textResultBox=document.getElementById('textResultBox'),textPreview=document.getElementById('textPreview'),textInfo=document.getElementById('textInfo'),textTargetEncoding=document.getElementById('textTargetEncoding'),copyBtn=document.getElementById('copyBtn'),textResetBtn=document.getElementById('textResetBtn');
+let textConverted='';
+textConvertBtn.addEventListener('click',()=>{
+  const text=textInput.value.trim();
+  if(!text){alert('Please enter some text');return;}
+  try{
+    const bytes=new TextEncoder().encode(text);
+    const detectedEncoding=Encoding.detect(bytes)||'UTF-8';
+    const unicodeString=Encoding.convert(bytes,{to:'UNICODE',from:detectedEncoding,type:'string'});
+    const targetBytes=Encoding.convert(unicodeString,{to:textTargetEncoding.value,from:'UNICODE',type:'string'});
+    textConverted=targetBytes;
+    textPreview.textContent=unicodeString.substring(0,2000);
+    textResultBox.classList.add('show');
+    textInfo.textContent=`Detected encoding: ${detectedEncoding} → Output: ${textTargetEncoding.value}`;
+  }catch(error){
+    alert('Conversion failed: '+error.message);
+  }
+});
+copyBtn.addEventListener('click',()=>{
+  if(!textConverted)return;
+  navigator.clipboard.writeText(textConverted).then(()=>{
+    alert('Copied to clipboard');
+  });
+});
+textResetBtn.addEventListener('click',()=>{
+  textInput.value='';
+  textConverted='';
+  textResultBox.classList.remove('show');
+  textInfo.textContent='';
+});
+
+document.querySelectorAll('.faq-q').forEach(q=>{q.addEventListener('click',()=>{q.parentElement.classList.toggle('open');});});
+</script>
+</body>
+</html>
